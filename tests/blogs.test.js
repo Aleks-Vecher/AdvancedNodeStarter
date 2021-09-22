@@ -4,7 +4,7 @@ let page
 
 beforeEach(async () => {
   page = await Page.build()
-  await page.goto('localhost:3000')
+  await page.goto('http://localhost:3000')
 })
 
 afterEach(async () => {
@@ -50,8 +50,40 @@ describe('When logged in', () => {
     })
 
     test('Submitting then saving adds blog to index page', async () => {
+      await page.click('button.green')
+      await page.waitFor('.card')
 
+      const title = await page.getContentsOf('.card-title')
+      const content = await page.getContentsOf('p')
+
+      expect(title).toEqual('My Title')
+      expect(content).toEqual('My Content')
     })
   })
-
 })
+
+describe('User is not logged in', () => {
+  const actions = [
+    {
+      method: 'get',
+      path: '/api/blogs',
+    },
+    {
+      method: 'post',
+      path: '/api/blogs',
+      data: {
+        title: 'T',
+        content: 'C',
+      }
+    }
+  ]
+
+  test('Blog related actions are prohibited', async () => {
+    const results = await page.execRequests(actions)
+
+    for (let result of results){
+      expect(result).toEqual({error: 'You must log in!'})
+    }
+  })
+})
+
