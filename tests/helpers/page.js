@@ -19,6 +19,7 @@ class CustomPage {
     })
   }
 
+
   constructor(page) {
     this.page = page
   }
