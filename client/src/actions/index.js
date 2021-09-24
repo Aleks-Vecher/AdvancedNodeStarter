@@ -22,7 +22,7 @@ export const submitBlog = (values, file, history) => async dispatch => {
       'Content-Type' : file.type
     }
   } )
-  console.log(8888888888)
+
   const res = await axios.post('/api/blogs', values);
 
   history.push('/blogs');
