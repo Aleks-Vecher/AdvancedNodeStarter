@@ -23,7 +23,10 @@ export const submitBlog = (values, file, history) => async dispatch => {
     }
   } )
 
-  const res = await axios.post('/api/blogs', values);
+  const res = await axios.post('/api/blogs', {
+    ...values,
+    imageUrl: uploadConfig.data.key  // best practice to store the specific key (file name in folder user in S3 cloud) but not full URL
+  });
 
   history.push('/blogs');
   dispatch({ type: FETCH_BLOG, payload: res.data });

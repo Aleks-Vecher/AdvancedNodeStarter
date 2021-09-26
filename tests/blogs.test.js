@@ -51,7 +51,7 @@ describe('When logged in', () => {
 
     test('Submitting then saving adds blog to index page', async () => {
       await page.click('button.green')
-      await page.waitFor('.card')
+      // await page.waitFor('.card')
 
       const title = await page.getContentsOf('.card-title')
       const content = await page.getContentsOf('p')
